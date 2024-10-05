@@ -16,17 +16,6 @@ extension URLRequestData {
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
     else { return nil }
 
-    let body: [UInt8]?
-    // FIXME: what's appropriate for the upTo value?
-    // FIXME: optional try or make this initializer throwable?
-    if var buffer = try? await request.body.collect(upTo: .max),
-      let bytes = buffer.readBytes(length: buffer.readableBytes)
-    {
-      body = bytes
-    } else {
-      body = nil
-    }
-
     self.init(
       method: request.method.rawValue,
       scheme: request.uri.scheme?.rawValue,
@@ -50,7 +39,8 @@ extension URLRequestData {
         },
         uniquingKeysWith: { $0 + $1 }
       ),
-      body: body.map { Data($0) }
+      // TODO: Body
+      body: nil
     )
   }
 }
