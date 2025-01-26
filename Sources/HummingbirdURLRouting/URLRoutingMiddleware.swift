@@ -47,7 +47,7 @@ where R.Input == URLRequestData {
       do {
         return try await next(request, context)
       } catch {
-        context.logger.info("\(routingError)")
+        context.logger.debug("\(routingError)")
         if self.throwErrorOnRoutingMismatch {
           throw error
         } else {
